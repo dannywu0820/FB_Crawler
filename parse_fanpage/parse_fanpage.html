@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Fanpage_Crawler</title>
+		<meta http-equiv="Content-Type" content="text/html" charset="big5">
+		<meta http-equiv="Pragma" content="no-cache">
+	</head>
+	<body>
+		<div id="user_interface">
+			url_fanpage: <input id="url_fanpage" type="text" size="75"></input><br><br>
+			num_want_posts: <input id="num_want_posts" type="text" size="75"></input><br><br>
+			fb_account: <input id="fb_account" type="text" size="75"></input><br><br>
+			fb_pasword: <input id="fb_pasword" type="text" size="75"></input><br><br>
+			<button id="crawl_fanpage" type="submit" onclick="myFunction()">Go!!!</button>
+		</div>
+		<div id="result">
+			<table>
+				<caption>Reaction Numbers</caption>
+				<tr>
+				<th><img src="../image/FB_Good.gif" width="20%" height="10%"></th>
+				<th><img src="../image/FB_Love.gif" width="20%" height="10%"></th>
+				<th><img src="../image/FB_Woow.gif" width="20%" height="10%"></th>
+				<th><img src="../image/FB_Cry.gif" width="20%" height="10%"></th>
+				<th><img src="../image/FB_Haha.gif" width="20%" height="10%"></th>
+				<th><img src="../image/FB_Rage.gif" width="20%" height="10%"></th>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
+
+<script>
+	function myFunction(){
+		//Get elements from DOM
+		var url_fanpage = document.getElementById("url_fanpage").value;
+		var num_want_posts = document.getElementById("num_want_posts").value;
+		var fb_account = document.getElementById("fb_account").value;
+		var fb_pasword = document.getElementById("fb_pasword").value;
+		
+		//Collate elements into json-formatted data
+		var data_json = {
+			"action": "parse_fanpage",
+			"url_fanpage": url_fanpage,
+			"num_want_posts": num_want_posts,
+			"fb_account": fb_account,
+			"fb_pasword": fb_pasword
+		}
+		var data_str = JSON.stringify(data_json);
+		
+		//Send request by POST or GET method
+		postReq(data_str, myCallback);
+	}
+	
+	function postReq(post_data, callback){
+		var request = new XMLHttpRequest();
+		//request.setRequestHeader();
+		request.open("POST", './parse_fanpage.php', true);
+		request.onreadystatechange = function(){
+			if(request.readyState == 4 && request.status == 200){
+				callback(request.responseText);
+			}
+			else{
+				console.log("readyState:"+request.readyState+" status:"+request.status);
+			}
+		}
+		request.send(post_data);
+	}
+	
+	function myCallback(responseText){
+		var response_data = JSON.parse(responseText);
+		console.log(response_data);
+		var result = document.getElementById("result");
+		/*if(response_data.status == "success"){
+			result.innerHTML = response_data.action+": "+response_data.url_fanpage;
+		}
+		else{
+			console.log("<Status>failure</Status>");
+		}*/
+	}
+</script>

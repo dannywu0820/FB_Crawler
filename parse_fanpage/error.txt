@@ -1,0 +1,6 @@
+* Rebuilt URL to: http://127.0.0.1:6666/
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* connect to 127.0.0.1 port 6666 failed: Operation timed out
+* Failed to connect to 127.0.0.1 port 6666: Operation timed out
+* Closing connection 0
