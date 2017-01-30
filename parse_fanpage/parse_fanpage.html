@@ -14,7 +14,7 @@
 			<button id="crawl_fanpage" type="submit" onclick="myFunction()">Go!!!</button>
 		</div>
 		<div id="result">
-			<table>
+			<table id="reaction_table">
 				<caption>Reaction Numbers</caption>
 				<tr>
 				<th><img src="../image/FB_Good.gif" width="20%" height="10%"></th>
@@ -69,12 +69,41 @@
 	function myCallback(responseText){
 		var response_data = JSON.parse(responseText);
 		console.log(response_data);
-		var result = document.getElementById("result");
-		/*if(response_data.status == "success"){
-			result.innerHTML = response_data.action+": "+response_data.url_fanpage;
+		
+		if(response_data.status == "success"){
+			var reaction_table = document.getElementById("reaction_table");
+			var reaction = response_data.reaction;
+			for(var i = 0; i < reaction.length; i++){
+				var new_row = reaction_table.insertRow(-1);
+				
+				var cell0 = new_row.insertCell(0);
+				if(reaction[i].good != null) cell0.innerHTML = reaction[i].good;
+				else cell0.innerHTML = "0";
+				
+				
+				var cell1 = new_row.insertCell(1);
+				if(reaction[i].love != null) cell1.innerHTML = reaction[i].love;
+				else cell1.innerHTML = "0";
+				
+				var cell2 = new_row.insertCell(2);
+				if(reaction[i].woow != null) cell2.innerHTML = reaction[i].woow;
+				else cell2.innerHTML = "0";
+				
+				var cell3 = new_row.insertCell(3);
+				if(reaction[i].cry != null) cell3.innerHTML = reaction[i].cry;
+				else cell3.innerHTML = "0";
+				
+				var cell4 = new_row.insertCell(4);
+				if(reaction[i].haha != null) cell4.innerHTML = reaction[i].haha;
+				else cell4.innerHTML = "0";
+				
+				var cell5 = new_row.insertCell(5);
+				if(reaction[i].rage != null) cell5.innerHTML = reaction[i].rage;
+				else cell5.innerHTML = "0";
+			}
 		}
 		else{
 			console.log("<Status>failure</Status>");
-		}*/
+		}
 	}
 </script>
